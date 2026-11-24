@@ -67,6 +67,13 @@ input[type=range]{width:100%;height:44px;accent-color:var(--coral)}
 .route h3{font-size:20px}.route b{color:var(--coral)}
 ol.d{padding-left:22px;margin:8px 0 0}ol.d li{margin:6px 0}
 .anchor{font:700 clamp(22px,5.5vw,28px)/1.25 Outfit,sans-serif;text-align:center;padding:8px 4px}
+.path{margin-top:8px}.st{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center;position:relative;padding:9px 0}
+.st:not(:last-child)::before{content:'';position:absolute;left:21px;top:44px;height:calc(100% - 26px);border-left:3px dotted var(--line)}
+.dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center}.dot.goal{background:var(--lime)}
+.st .l{display:flex;flex-wrap:wrap;justify-content:space-between;column-gap:8px;font-weight:600;font-size:15px}.st .l span{font-weight:500;color:var(--soft);font-size:13px}
+.st .b{height:10px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:5px}.st .b i{display:block;height:100%;width:var(--w);animation:grow 1s ease-out}
+@keyframes grow{from{width:0}}
+@media(prefers-reduced-motion:reduce){.st .b i{animation:none}}
 .locked{position:relative;overflow:hidden}
 .locked .blur{filter:blur(6px);opacity:.55;pointer-events:none;user-select:none}
 .hide{display:none!important}
@@ -103,9 +110,9 @@ const Q=[
 {id:'horario',b:'Tu realidad',t:'one',q:'¿Cómo son tus horarios?',o:['Fijos y predecibles','Cambian de una semana a otra','Impredecibles (tengo otras responsabilidades que cambian)']},
 {id:'ingreso',b:'Tu realidad',t:'one',q:'¿Qué ingreso mensual (en USD) te daría tranquilidad?',o:['Menos de 200','Entre 200 y 500','Entre 500 y 1.000','Más de 1.000'],show:sinT},
 {id:'equipo',b:'Tu realidad',t:'multi',q:'¿Con qué cuentas hoy?',h:'Marca todas las que apliquen.',o:['Laptop o PC propia','Internet estable','Electricidad estable','Una forma de cobrar en USD','Correo electrónico que reviso a diario','Un espacio tranquilo para trabajar','Perfil en LinkedIn','Solo tengo el celular']},
-{id:'tec',b:'Tu realidad',t:'one',q:'¿Cómo te llevas con la tecnología?',h:'Elige la que más se parezca a ti.',o:[['Nivel 1','Uso WhatsApp, llamadas y redes sociales'],['Nivel 2','Además uso correo, busco en Google y envío archivos'],['Nivel 3','Uso Excel o Word con soltura: fórmulas, tablas, formatos'],['Nivel 4','Manejo software técnico (AutoCAD, gestores de proyectos, presupuestos)'],['Nivel 5','Aprendo programas nuevos por mi cuenta con tutoriales']]},
+{id:'tec',b:'Tu realidad',t:'one',q:'¿Cómo te llevas con la tecnología?',h:'Elige la que más se parezca a ti.',o:[['Nivel 1','Uso WhatsApp, llamadas y redes sociales'],['Nivel 2','Además uso correo, busco en Google y envío archivos'],['Nivel 3','Uso Excel o Word con soltura: fórmulas, tablas, formatos'],['Nivel 4','Manejo software técnico (AutoCAD, gestor de proyectos o CRM, presupuestos)'],['Nivel 5','Aprendo programas nuevos por mi cuenta con tutoriales']]},
 {id:'estudio',b:'Tu talento',t:'text',q:'¿Qué estudiaste o en qué te formaste?',req:1},
-{id:'herr',b:'Tu talento',t:'multi',q:'¿Qué herramientas dominas?',o:['Excel','Word','Google Drive, Docs o Sheets','ChatGPT, Gemini, Claude u otra IA','Zoom o Google Meet','Trello, Asana, Monday u otro gestor de proyectos','AutoCAD u otro programa de diseño','Software de presupuestos de obra','Canva','Redes sociales para vender','Ninguna de estas']},
+{id:'herr',b:'Tu talento',t:'multi',q:'¿Qué herramientas dominas?',o:['Excel','Word','Google Drive, Docs o Sheets','ChatGPT, Gemini, Claude u otra IA','Zoom o Google Meet','Gestor de proyectos o CRM','AutoCAD u otro programa de diseño','Software de presupuestos de obra','Canva','Redes sociales para vender','Ninguna de estas']},
 {id:'fuerte',b:'Tu talento',t:'pick3',q:'Elige las 3 cosas en las que eres realmente bueno',o:['Presupuestos y costos','Negociar con proveedores','Detectar errores que otros no ven','Organizar logística','Planificar cronogramas','Enseñar y explicar','Vender o convencer','Diseñar soluciones','Atender clientes','Llevar orden y control administrativo']},
 {id:'logro',b:'Tu talento',t:'text',q:'Cuéntame un logro del que te sientas orgulloso',h:'En tu trabajo o en tu vida. Unas líneas bastan.',req:1},
 {id:'r_R',b:'Cómo funcionas',t:'scale4',q:'¿Cuánto disfrutarías trabajar en algo práctico, con tus manos o en sitio?',h:'Una obra, un taller, una instalación.'},
@@ -156,8 +163,8 @@ function intro(){
   hero(true);setRing(S.i?S.i/vis().length:0);
   const resume=S.i>0&&!S.done;
   app.innerHTML=`<div class="card">
-   <h2 style="font-size:24px">Una tarea que nació en TEDx</h2>
-   <p>En un evento TEDx nos dejaron una tarea: usar la inteligencia artificial para ayudar a alguien a descubrir su potencial. <b>Ricardo te eligió a ti.</b></p>
+   <h2 style="font-size:24px">Una tarea que nació en TEDx Santa Rosa</h2>
+   <p>En TEDx Santa Rosa nos dejaron una tarea: usar la inteligencia artificial para ayudar a alguien a descubrir su potencial. <b>Ricardo te eligió a ti.</b></p>
    <p>Son unas preguntas de 12 a 15 minutos. Casi todas se responden tocando una opción. Si te interrumpen, tu avance queda guardado en este teléfono.</p>
    <p class="note">Al final verás un primer resultado y podrás pedir tu informe completo en PDF a tu correo. Tus respuestas le llegan a Ricardo como parte del análisis con IA, para preparar ese informe personalizado. No es una evaluación de trabajo ni una evaluación psicológica clínica: es una herramienta de orientación y crecimiento.</p>
   </div>
@@ -225,16 +232,23 @@ function compute(){
   return {t1,t2,ind,rh,days:Math.round(rh*365/24),jorn:Math.round(rh*365/8),low,tecN};
 }
 
+const SH={"sit": "Situación", "horas": "Horas/semana", "horario": "Horario", "ingreso": "Ingreso deseado", "equipo": "Cuenta con", "tec": "Tecnología", "estudio": "Formación", "herr": "Herramientas", "fuerte": "Fortalezas", "logro": "Logro", "excusa": "Excusa más repetida", "redes": "Redes al día", "app": "App principal", "sigues": "Sigue", "despues": "Tras las redes se siente", "hora": "Mejor hora", "pot": "Potencial que usa", "cien": "Si diera el 100%", "leer": "Último libro", "formato": "Aprende mejor", "tema": "Tema", "min": "Tiempo para crecer", "admira": "Admira a", "estanca": "Cuando se estanca", "meta": "Meta", "monto": "Monto a 90 días", "frase": "Sabrá que lo logró cuando", "disp": "Disposición", "freno": "Lo que más lo frena"};
 const SITL={sin:'Sin trabajo fijo',emp:'Empleado',ind:'Independiente'};
 const okMail=e=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e||'');
-function msg(R){
-  const A=S.A,lines=['*DESBLOQUEA TU POTENCIAL*','Solicitud de informe de: '+S.name,'Email: '+(S.email||'—'),'','*Perfil:* '+TYPES[R.t1][0]+' (rasgos de '+TYPES[R.t2][1]+')'];
-  R.ind.forEach(x=>lines.push('• '+x[0]+': '+x[1]+'/100'));
-  lines.push('• Redes: ~'+R.rh+' h/día ≈ '+R.days+' días al año','','*Respuestas*');
-  vis().forEach((q,n)=>{let v=A[q.id];if(q.id==='sit')v=SITL[v]||v;if(v==null||v==='')v='—';if(Array.isArray(v))v=v.join(', ');if(q.t==='likert')v=v+'/5';if(q.t==='scale4')v=['','Nada','Poco','Bastante','Mucho'][v]||v;if(q.t==='range')v=v+'%';
-    lines.push((n+1)+'. '+q.q.replace(/[“”]/g,'"')+'\n→ '+v)});
-  return 'https://wa.me/'+WA+'?text='+encodeURIComponent(lines.join('\n'));
+function msg(R,self){
+  const A=S.A,L=[],fmt=q=>{let v=A[q.id];if(q.id==='sit')v=SITL[v]||v;if(v==null||v==='')return '—';if(Array.isArray(v))return v.join(', ');if(q.t==='range')return v+'%';if(q.t==='ten')return v+'/10';if(q.id==='tec')return String(v).split(' — ')[0];return String(v)};
+  L.push('🔓 *DESBLOQUEA TU POTENCIAL*',self?'_Copia de mis respuestas_':'_Solicitud de informe_','','👤 *'+S.name+'*','✉️ '+(S.email||'—'),'','━━━━━━━━━━','*PERFIL:* '+TYPES[R.t1][0]+' · rasgos de '+TYPES[R.t2][1]);
+  R.ind.forEach(x=>L.push((x[1]>=70?'🟢':x[1]>=45?'🟡':'🔴')+' '+x[0]+': *'+x[1]+'*'));
+  L.push('📱 Redes: ~'+R.rh+' h/día ≈ '+R.days+' días/año');
+  const V=vis();let blk='';
+  V.forEach(q=>{if(q.b!==blk){blk=q.b;L.push('','━━━━━━━━━━','*'+blk.toUpperCase()+'*')}
+    if(q.t==='scale4'){if(q.id==='r_R')L.push('Intereses (1-4): Práctico '+(A.r_R||'-')+' · Analítico '+(A.r_I||'-')+' · Creativo '+(A.r_A||'-')+' · Social '+(A.r_S||'-')+' · Líder '+(A.r_E||'-')+' · Orden '+(A.r_C||'-'));return}
+    if(q.t==='likert'){if(q.id==='m1')L.push('Escala 1-5: Control '+(A.m1||'-')+' · Culpa externa '+(A.m2||'-')+' · Mentalidad fija '+(A.m3||'-')+' · Escepticismo tecnológico '+(A.m4||'-')+' · Resiliencia '+(A.m5||'-')+' · Procrastinación '+(A.m6||'-'));return}
+    L.push('• '+(SH[q.id]||q.id)+': '+fmt(q))});
+  return 'https://wa.me/'+(self?'':WA)+'?text='+encodeURIComponent(L.join('\n'));
 }
+const lockSvg=o=>`<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="${o?'M8 11V7a4 4 0 0 1 7.6-1.7':'M8 11V7a4 4 0 0 1 8 0v4'}" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><rect x="5" y="11" width="14" height="10" rx="2.5" fill="#fff"/></svg>`;
+const flagSvg='<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 21V4" stroke="#0e3b2c" stroke-width="2.4" stroke-linecap="round"/><path d="M6 4h11l-2.5 4L17 12H6z" fill="#0e3b2c"/></svg>';
 function heroDone(t){hero(true);setRing(1);document.getElementById('lock').classList.add('open');document.getElementById('heroSub').textContent=t}
 
 function results(){
@@ -244,8 +258,9 @@ function results(){
   app.innerHTML=`<section class="res">
   <div class="card prof"><span class="tag">Tu perfil</span><h2>${TYPES[R.t1][0]}</h2><p>${TYPES[R.t1][2]}</p><p>Con rasgos de <b>${TYPES[R.t2][1]}</b>: ${TYPES[R.t2][2].charAt(0).toLowerCase()+TYPES[R.t2][2].slice(1)}</p>
    ${(A.fuerte||[]).length?`<p><b>Tu superpoder:</b> ${esc(A.fuerte.join(', ').toLowerCase())}.</p>`:''}</div>
-  <div class="card"><h2>Tu mentalidad hoy</h2><p class="note">No es una nota: es un mapa. Lo que sale bajo es justo donde más puedes crecer.</p>
-   <div class="ind">${R.ind.map(x=>`<div><div class="l">${x[0]} <span>${tag(x[1])} · ${x[1]}/100</span></div><div class="b"><i style="width:${x[1]}%;background:${col(x[1])}"></i></div></div>`).join('')}</div></div>
+  <div class="card"><h2>Tu ruta de desbloqueo</h2><p class="note">Cada candado es una llave de tu mentalidad. Los abiertos son tus fortalezas; los cerrados, lo que te falta abrir para llegar a tu meta.</p>
+   <div class="path">${R.ind.slice().sort((x,y)=>y[1]-x[1]).map(x=>`<div class="st"><span class="dot" style="background:${col(x[1])}">${lockSvg(x[1]>=70)}</span><div><div class="l">${x[0]} <span>${tag(x[1])} · ${x[1]}/100</span></div><div class="b"><i style="--w:${x[1]}%;background:${col(x[1])}"></i></div></div></div>`).join('')}
+    <div class="st"><span class="dot goal">${flagSvg}</span><div><div class="l">Tu meta</div><div class="note" style="margin:0">${esc(A.meta||'')}${A.monto?' · '+esc(A.monto)+' USD':''}</div></div></div></div></div></div>
   <div class="card"><h2>El espejo de tu tiempo</h2><div class="mirror">${R.days} días</div>
    <p>Es lo que suman al año ~${R.rh} horas diarias en redes: unas <b>${R.jorn} jornadas de trabajo de 8 horas</b>. Dijiste que hoy usas el <b>${A.pot==null?50:A.pot}%</b> de tu potencial${A.despues==='Peor'?', y que después de las redes te sientes peor':''}.</p></div>
   <div class="card" id="cta"><h2 style="font-size:24px">Pide tu informe completo</h2>
@@ -271,6 +286,11 @@ function thanks(){
   app.innerHTML=`<section class="res">
   <div class="card prof"><span class="tag">Solicitud enviada</span><h2>¡Gracias, ${esc(S.name)}!</h2>
    <p>Ricardo recibirá tus respuestas y te enviará tu <b>informe completo en PDF</b> a <b>${esc(S.email||'tu correo')}</b>.</p></div>
+  <div class="card"><span class="tag">Tu agente de IA</span><h2 style="font-size:24px;margin-top:10px">Ya tienes un agente asignado</h2>
+   <p>Durante los próximos 30 días, un agente de IA te acompañará para desbloquear tu potencial: te escribirá a tu correo con tu reto, recordatorios y nuevas tareas según tu avance.</p></div>
+  <div class="card"><h2 style="font-size:22px">Guarda una copia de tus respuestas</h2>
+   <p>Envíatela a tu propio WhatsApp: al abrirse, elige tu chat personal o a quien quieras.</p>
+   <div class="row"><a class="btn ghost" href="${msg(R,true)}" target="_blank" rel="noopener">Enviarme una copia</a></div></div>
   <div class="card"><h2 style="font-size:22px">¿Se abrió WhatsApp pero no tocaste “Enviar”?</h2>
    <p>Sin ese paso Ricardo no recibe tus respuestas. Puedes intentarlo de nuevo aquí:</p>
    <div class="row"><a class="btn" href="${msg(R)}" target="_blank" rel="noopener">Abrir WhatsApp de nuevo</a></div></div>
