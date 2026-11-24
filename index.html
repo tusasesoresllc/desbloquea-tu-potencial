@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desbloquea tu Potencial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: cálido, directo, de coach que te tutea; sin sermones.
+   IDEA: un candado que se abre a medida que avanzas — cada respuesta es una vuelta de llave.
+   PICTURE: candado grande con anillo de progreso; al final el arco se levanta.
+   COLOUR and TYPE: verde bosque profundo (crecimiento) + lima + coral de acento; Outfit 800 + Inter.
+   LAYOUT: una columna tranquila para el celular; una pregunta por pantalla; botones grandes. */
+:root{color-scheme:light dark;
+--bg:light-dark(#f3f6f1,#0a1c16);--card:light-dark(#ffffff,#12291f);--ink:light-dark(#0f241b,#e8f2ec);
+--soft:light-dark(#4d6359,#a4bcb0);--line:light-dark(#d7e2da,#244236);--deep:#0e3b2c;--lime:#c8f13a;--coral:#ff6a3d;
+--sel:light-dark(#0e3b2c,#c8f13a);--selInk:light-dark(#ffffff,#0e3b2c)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Outfit,system-ui,sans-serif;line-height:1.08;text-wrap:balance;margin:0}
+.wrap{max-width:620px;margin:0 auto;padding:0 18px 48px}
+.hero{background:var(--deep);color:#eef7f1;padding:28px 18px 34px}
+.hero .in{max-width:620px;margin:0 auto}
+.hero h1{font-size:clamp(34px,8vw,50px);font-weight:800}
+.hero p{color:#cfe3d7;margin:10px 0 0}
+.lock{display:block;width:min(210px,52vw);margin:4px auto 18px}
+.lock .sh{transition:transform .7s cubic-bezier(.3,1.4,.5,1)}
+.lock.open .sh{transform:translateY(-22px)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:18px}
+.note{font-size:14px;color:var(--soft)}
+label.f{display:block;font-weight:600;margin:4px 0 8px}
+input[type=text],textarea{width:100%;font:16px Inter,sans-serif;padding:14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea{min-height:120px;resize:vertical}
+input:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 22px;border-radius:14px;border:0;font:700 17px Outfit,sans-serif;cursor:pointer;background:var(--coral);color:#fff;text-decoration:none;width:100%}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.row{display:flex;gap:10px;margin-top:18px}.row .btn{flex:1}
+.top{position:sticky;top:0;z-index:2;background:var(--bg);padding:14px 0 10px}
+.bar{height:8px;border-radius:9px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--coral);width:0;transition:width .35s}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--soft);margin-top:8px}
+.q h2{font-size:clamp(23px,5.6vw,30px);font-weight:700;margin:14px 0 6px}
+.q .h{color:var(--soft);font-size:15px;margin:0 0 14px}
+.opts{display:grid;gap:10px}
+.opts.g5{grid-template-columns:repeat(5,minmax(0,1fr))}.opts.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+.o{min-height:52px;text-align:left;padding:13px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:500 16px/1.35 Inter,sans-serif;cursor:pointer}
+.o small{display:block;color:var(--soft);font-size:13.5px;margin-top:2px}
+.o.on{background:var(--sel);border-color:var(--sel);color:var(--selInk)}.o.on small{color:inherit;opacity:.85}
+.g5 .o{text-align:center;padding:12px 4px;font-weight:700}
+.big{font:800 clamp(56px,16vw,84px)/1 Outfit,sans-serif;text-align:center;color:var(--coral)}
+input[type=range]{width:100%;height:44px;accent-color:var(--coral)}
+.res h2{font-size:clamp(26px,6vw,34px)}
+.tag{display:inline-block;background:var(--lime);color:#0e3b2c;font:700 13px Inter,sans-serif;padding:4px 10px;border-radius:99px}
+.prof{background:var(--deep);color:#eef7f1;border:0}
+.prof h2{font-size:clamp(32px,8vw,44px);margin:10px 0 6px}.prof p{color:#cfe3d7}
+.ind{display:grid;gap:12px;margin-top:6px}
+.ind .l{display:flex;justify-content:space-between;font-weight:600;font-size:15px}
+.ind .l span{font-weight:500;color:var(--soft);font-size:13.5px}
+.ind .b{height:10px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:5px}
+.ind .b i{display:block;height:100%}
+.mirror{font:800 clamp(44px,13vw,64px)/1 Outfit,sans-serif;color:var(--coral)}
+.route{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.route:first-of-type{border:0;margin:0;padding:0}
+.route h3{font-size:20px}.route b{color:var(--coral)}
+ol.d{padding-left:22px;margin:8px 0 0}ol.d li{margin:6px 0}
+.anchor{font:700 clamp(22px,5.5vw,28px)/1.25 Outfit,sans-serif;text-align:center;padding:8px 4px}
+.locked{position:relative;overflow:hidden}
+.locked .blur{filter:blur(6px);opacity:.55;pointer-events:none;user-select:none}
+.hide{display:none!important}
+@media(prefers-reduced-motion:reduce){.lock .sh,.bar i{transition:none}}
+</style>
+</head>
+<body>
+<header class="hero" id="hero">
+  <div class="in">
+    <svg class="lock" id="lock" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="112" r="86" fill="none" stroke="#1d5a44" stroke-width="10"/>
+      <circle id="ring" cx="100" cy="112" r="86" fill="none" stroke="#c8f13a" stroke-width="10" stroke-linecap="round" stroke-dasharray="540" stroke-dashoffset="540" transform="rotate(-90 100 112)" style="transition:stroke-dashoffset .5s"/>
+      <path class="sh" d="M70 104V84a30 30 0 0 1 60 0v20" fill="none" stroke="#eef7f1" stroke-width="13" stroke-linecap="round"/>
+      <rect x="56" y="100" width="88" height="70" rx="14" fill="#ff6a3d"/>
+      <rect x="56" y="100" width="88" height="14" rx="7" fill="#ff8a66"/>
+      <circle cx="100" cy="128" r="9" fill="#0e3b2c"/><rect x="96" y="132" width="8" height="20" rx="4" fill="#0e3b2c"/>
+    </svg>
+    <h1>Desbloquea tu Potencial</h1>
+    <p id="heroSub">Un test de avance personal, analizado con inteligencia artificial.</p>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<script>
+{
+const WA='584245181624';
+const KEY='dtp_v1';
+const sinT=a=>a.sit==='sin';
+const L5=['Totalmente en desacuerdo','En desacuerdo','Neutral','De acuerdo','Totalmente de acuerdo'];
+const Q=[
+{id:'sit',b:'Tu realidad',t:'one',q:'¿Cuál es tu situación laboral hoy?',o:['Sin trabajo fijo','Trabajo como empleado','Trabajo por mi cuenta (independiente)'],v:['sin','emp','ind']},
+{id:'horas',b:'Tu realidad',t:'one',q:'¿Cuántas horas por semana puedes dedicar de verdad a crecer y generar ingresos?',h:'Fuera de tus obligaciones actuales. Sé realista.',o:['Menos de 5','Entre 5 y 10','Entre 10 y 20','Más de 20']},
+{id:'horario',b:'Tu realidad',t:'one',q:'¿Cómo son tus horarios?',o:['Fijos y predecibles','Cambian de una semana a otra','Impredecibles (cuido a alguien u otras obligaciones)']},
+{id:'ingreso',b:'Tu realidad',t:'one',q:'¿Qué ingreso mensual (en USD) te daría tranquilidad?',o:['Menos de 200','Entre 200 y 500','Entre 500 y 1.000','Más de 1.000'],show:sinT},
+{id:'equipo',b:'Tu realidad',t:'multi',q:'¿Con qué cuentas hoy?',h:'Marca todas las que apliquen.',o:['Laptop o PC propia','Internet estable','Electricidad estable','Una forma de cobrar en USD','Solo tengo el celular']},
+{id:'tec',b:'Tu realidad',t:'one',q:'¿Cómo te llevas con la tecnología?',h:'Elige la que más se parezca a ti.',o:[['Nivel 1','Uso WhatsApp, llamadas y redes sociales'],['Nivel 2','Además uso correo, busco en Google y envío archivos'],['Nivel 3','Uso Excel o Word con soltura: fórmulas, tablas, formatos'],['Nivel 4','Manejo software técnico (AutoCAD, MS Project, presupuestos)'],['Nivel 5','Aprendo programas nuevos por mi cuenta con tutoriales']]},
+{id:'estudio',b:'Tu talento',t:'text',q:'¿Qué estudiaste o en qué te formaste?',req:1},
+{id:'herr',b:'Tu talento',t:'multi',q:'¿Qué herramientas dominas?',o:['Excel','Word','AutoCAD u otro programa de diseño','MS Project o similar','Software de presupuestos de obra','Canva','Redes sociales para vender','Ninguna de estas']},
+{id:'fuerte',b:'Tu talento',t:'pick3',q:'Elige las 3 cosas en las que eres realmente bueno',o:['Presupuestos y costos','Negociar con proveedores','Detectar errores que otros no ven','Organizar logística','Planificar cronogramas','Enseñar y explicar','Vender o convencer','Diseñar soluciones','Atender clientes','Llevar orden y control administrativo']},
+{id:'logro',b:'Tu talento',t:'text',q:'Cuéntame un logro del que te sientas orgulloso',h:'En tu trabajo o en tu vida. Unas líneas bastan.',req:1},
+{id:'r_R',b:'Cómo funcionas',t:'scale4',q:'¿Cuánto disfrutarías trabajar en algo práctico, con tus manos o en sitio?',h:'Una obra, un taller, una instalación.'},
+{id:'r_I',b:'Cómo funcionas',t:'scale4',q:'¿Cuánto disfrutarías analizar números o datos para entender por qué algo no funciona?'},
+{id:'r_A',b:'Cómo funcionas',t:'scale4',q:'¿Cuánto disfrutarías diseñar o crear algo nuevo?',h:'Una propuesta, un espacio, un contenido.'},
+{id:'r_S',b:'Cómo funcionas',t:'scale4',q:'¿Cuánto disfrutarías enseñar, orientar o ayudar a otros a crecer?'},
+{id:'r_E',b:'Cómo funcionas',t:'scale4',q:'¿Cuánto disfrutarías liderar un proyecto o convencer a alguien de una idea?'},
+{id:'r_C',b:'Cómo funcionas',t:'scale4',q:'¿Cuánto disfrutarías llevar el control y el orden de cuentas, inventarios o documentos?'},
+{id:'m1',b:'Tu mentalidad',t:'likert',q:'“Lo que me pasa depende más de mí que de las circunstancias.”'},
+{id:'m2',b:'Tu mentalidad',t:'likert',q:'“Mi situación actual es principalmente culpa del país, la economía o de otros.”'},
+{id:'m3',b:'Tu mentalidad',t:'likert',q:'“Si algo no me sale de entrada, es que no es lo mío.”'},
+{id:'m4',b:'Tu mentalidad',t:'likert',q:'“La tecnología nueva es más moda que utilidad.”'},
+{id:'m5',b:'Tu mentalidad',t:'likert',q:'“Cuando algo me sale mal, busco qué puedo hacer distinto.”'},
+{id:'m6',b:'Tu mentalidad',t:'likert',q:'“Me cuesta empezar cosas aunque sé que debo hacerlas.”'},
+{id:'excusa',b:'Tu mentalidad',t:'one',q:'¿Cuál de estas frases te repites más?',h:'Sé honesto. Nadie la dice en voz alta, pero todos tenemos una.',o:['No tengo tiempo','No tengo dinero para empezar','Ya estoy grande para eso','El país no ayuda','No sé por dónde empezar','Nadie me da una oportunidad','Ninguna de estas']},
+{id:'redes',b:'Tu tiempo',t:'one',q:'¿Cuántas horas al día pasas en redes sociales y WhatsApp?',h:'Si tienes dudas, revisa el tiempo de uso en tu teléfono.',o:['Menos de 1 hora','Entre 1 y 2 horas','Entre 2 y 4 horas','Más de 4 horas']},
+{id:'app',b:'Tu tiempo',t:'one',q:'¿Qué app te consume más tiempo?',o:['WhatsApp','Instagram','Facebook','TikTok','YouTube','X (Twitter)','Otra']},
+{id:'sigues',b:'Tu tiempo',t:'multi',q:'¿Qué tipo de cuentas sigues más?',o:['Entretenimiento y humor','Noticias','Chismes y farándula','Aprendizaje','Negocios y emprendimiento','Deporte','Fe o espiritualidad']},
+{id:'despues',b:'Tu tiempo',t:'one',q:'Después de un rato en redes, ¿cómo te sientes?',o:['Mejor','Igual','Peor']},
+{id:'hora',b:'Tu tiempo',t:'one',q:'¿A qué hora del día rindes más?',o:['Temprano en la mañana','Media mañana','En la tarde','En la noche']},
+{id:'pot',b:'Tu tiempo',t:'range',q:'Siendo honesto contigo: ¿qué porcentaje de tu potencial estás usando hoy en tu vida?'},
+{id:'cien',b:'Tu tiempo',t:'text',q:'Si dieras el 100%, ¿qué sería diferente en tu vida dentro de un año?',req:1},
+{id:'leer',b:'Tu crecimiento',t:'one',q:'¿Cuándo fue la última vez que leíste o escuchaste un libro completo?',o:['Este último mes','Este año','Hace varios años','No lo recuerdo']},
+{id:'formato',b:'Tu crecimiento',t:'one',q:'¿Cómo aprendes mejor?',o:['Leyendo','Escuchando (audio, podcast)','Viendo videos']},
+{id:'tema',b:'Tu crecimiento',t:'one',q:'¿Qué tema te llama más ahora mismo?',o:['Disciplina y hábitos','Finanzas personales','Liderazgo','Emprendimiento','Fe y propósito','Calma y manejo del estrés']},
+{id:'min',b:'Tu crecimiento',t:'one',q:'¿Cuánto tiempo al día podrías dedicar a crecer?',o:['10 minutos','20 minutos','30 minutos o más']},
+{id:'admira',b:'Tu crecimiento',t:'text',q:'¿A quién admiras y por qué?'},
+{id:'estanca',b:'Tu crecimiento',t:'one',q:'¿Qué haces cuando te sientes estancado?',o:['Me distraigo con el teléfono','Me encierro a pensarlo solo','Hablo con alguien','Hago ejercicio o salgo','Me pongo a trabajar en algo','Nada, me quedo así']},
+{id:'meta',b:'Tu meta',t:'one',q:'¿Qué quieres lograr primero?',dyn:a=>sinT(a)?['Generar un ingreso extra','Conseguir un trabajo estable','Tener mi propio servicio o negocio','Ordenar mis finanzas','Recuperar mi confianza']:['Aprender una habilidad nueva','Generar un ingreso aparte','Emprender algo propio','Crecer profesionalmente','Ordenar mis finanzas','Recuperar mi enfoque']},
+{id:'monto',b:'Tu meta',t:'one',q:'¿Cuánto quisieras generar al mes dentro de 90 días? (USD)',dyn:a=>sinT(a)?['Menos de 200','Entre 200 y 500','Entre 500 y 1.000','Más de 1.000']:['Un extra de menos de 200','Un extra de 200 a 500','Un extra de más de 500','Ahora no es mi prioridad']},
+{id:'frase',b:'Tu meta',t:'text',q:'En una frase: ¿cómo sabrás que lo lograste?',h:'Opcional, pero ayuda mucho.'},
+{id:'disp',b:'Tu meta',t:'ten',q:'Del 1 al 10, ¿qué tan dispuesto estás a probar algo nuevo en los próximos 14 días?'},
+{id:'freno',b:'Tu meta',t:'text',q:'¿Qué es lo que más te frena hoy?',h:'Opcional.'}
+];
+
+let S={name:'',A:{},i:0,done:false,unlocked:false};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.A)S=s}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const app=document.getElementById('app');
+const vis=()=>Q.filter(q=>!q.show||q.show(S.A));
+const optsOf=q=>q.dyn?q.dyn(S.A):q.o;
+const lbl=o=>Array.isArray(o)?o[0]+' — '+o[1]:o;
+const setRing=p=>{document.getElementById('ring').style.strokeDashoffset=String(540*(1-p))};
+const hero=on=>document.getElementById('hero').classList.toggle('hide',!on);
+
+function intro(){
+  hero(true);setRing(S.i?S.i/vis().length:0);
+  const resume=S.i>0&&!S.done;
+  app.innerHTML=`<div class="card">
+   <h2 style="font-size:24px">Una tarea que nació en TEDx</h2>
+   <p>En un evento TEDx nos dejaron una tarea: usar la inteligencia artificial para ayudar a alguien a descubrir su potencial. <b>Ricardo te eligió a ti.</b></p>
+   <p>Son unas preguntas de 12 a 15 minutos. Casi todas se responden tocando una opción. Si te interrumpen, tu avance queda guardado en este teléfono.</p>
+   <p class="note">Al final verás tus resultados. Tus respuestas le llegan a Ricardo como parte del análisis con IA, para preparar tu informe personalizado. No es una evaluación de trabajo ni una evaluación psicológica clínica: es una herramienta de orientación y crecimiento.</p>
+  </div>
+  <div class="card">
+   <label class="f" for="nm">¿Cómo te llamas?</label>
+   <input type="text" id="nm" autocomplete="given-name" value="${esc(S.name)}" placeholder="Tu nombre">
+   <div class="row"><button class="btn" id="go">${resume?'Continuar donde iba':S.done?'Ver mis resultados':'Comenzar'}</button></div>
+   ${(resume||S.done)?'<div class="row"><button class="btn ghost" id="rs">Empezar de nuevo</button></div>':''}
+  </div>`;
+  const nm=document.getElementById('nm');
+  document.getElementById('go').onclick=()=>{const v=nm.value.trim();if(!v){nm.focus();return}S.name=v;save();S.done?results():ask()};
+  const rs=document.getElementById('rs');
+  if(rs)rs.onclick=()=>{S={name:nm.value.trim(),A:{},i:0,done:false,unlocked:false};save();intro()};
+}
+
+function ask(){
+  hero(false);
+  const V=vis();if(S.i>=V.length){S.done=true;save();results();return}
+  const q=V[S.i],a=S.A[q.id],O=optsOf(q)||[];
+  let body='';
+  if(q.t==='one')body=`<div class="opts">${O.map((o,k)=>{const val=q.v?q.v[k]:lbl(o);return `<button class="o${a===val?' on':''}" data-v="${esc(val)}">${Array.isArray(o)?`<b>${esc(o[0])}</b><small>${esc(o[1])}</small>`:esc(o)}</button>`}).join('')}</div>`;
+  if(q.t==='multi'||q.t==='pick3'){const arr=a||[];body=`<div class="opts">${O.map(o=>`<button class="o${arr.includes(o)?' on':''}" data-m="${esc(o)}">${esc(o)}</button>`).join('')}</div>`}
+  if(q.t==='scale4')body=`<div class="opts g4">${['Nada','Poco','Bastante','Mucho'].map((o,k)=>`<button class="o${a===k+1?' on':''}" data-n="${k+1}">${o}</button>`).join('')}</div>`;
+  if(q.t==='likert')body=`<div class="opts">${L5.map((o,k)=>`<button class="o${a===k+1?' on':''}" data-n="${k+1}">${o}</button>`).join('')}</div>`;
+  if(q.t==='ten')body=`<div class="opts g5">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="o${a===n?' on':''}" data-n="${n}">${n}</button>`).join('')}</div>`;
+  if(q.t==='range')body=`<div class="big" id="rv">${a==null?50:a}%</div><input type="range" id="rg" min="0" max="100" step="5" value="${a==null?50:a}" aria-label="Porcentaje">`;
+  if(q.t==='text')body=`<textarea id="tx" placeholder="Escribe aquí…">${esc(a||'')}</textarea>`;
+  const needNext=['multi','pick3','range','text'].includes(q.t);
+  app.innerHTML=`<div class="top"><div class="bar"><i style="width:${S.i/V.length*100}%"></i></div>
+   <div class="meta"><span>${esc(q.b)}</span><span>${S.i+1} de ${V.length}</span></div></div>
+   <section class="q"><h2>${esc(q.q)}</h2>${q.h?`<p class="h">${esc(q.h)}</p>`:''}${q.t==='pick3'?'<p class="h">Elige exactamente 3.</p>':''}${body}
+   <div class="row"><button class="btn ghost" id="bk">Atrás</button>${needNext?'<button class="btn" id="nx">Siguiente</button>':''}</div></section>`;
+  const next=()=>{S.i++;save();ask();window.scrollTo(0,0)};
+  const nx=document.getElementById('nx');
+  const check=()=>{if(!nx)return;const v=S.A[q.id];let ok=true;
+    if(q.t==='multi')ok=v&&v.length>0;if(q.t==='pick3')ok=v&&v.length===3;if(q.t==='text'&&q.req)ok=v&&v.trim().length>1;nx.disabled=!ok};
+  app.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{S.A[q.id]=b.dataset.v;save();b.classList.add('on');setTimeout(next,170)});
+  app.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{S.A[q.id]=+b.dataset.n;save();b.classList.add('on');setTimeout(next,170)});
+  app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{let arr=(S.A[q.id]||[]).slice();const m=b.dataset.m;
+    if(arr.includes(m))arr=arr.filter(x=>x!==m);else{if(q.t==='pick3'&&arr.length>=3)return;if(m==='Ninguna de estas'||m==='Solo tengo el celular')arr=arr.filter(x=>x!=='Ninguna de estas');arr.push(m)}
+    S.A[q.id]=arr;save();b.classList.toggle('on',arr.includes(m));check()});
+  const rg=document.getElementById('rg');if(rg){if(a==null){S.A[q.id]=50;save()}rg.oninput=()=>{S.A[q.id]=+rg.value;document.getElementById('rv').textContent=rg.value+'%';save()}}
+  const tx=document.getElementById('tx');if(tx)tx.oninput=()=>{S.A[q.id]=tx.value;save();check()};
+  if(nx){nx.onclick=next;check()}
+  document.getElementById('bk').onclick=()=>{if(S.i===0){intro();return}S.i--;save();ask()};
+}
+
+const TYPES={R:['El Constructor','Constructor','Aprendes haciendo. Te sientes vivo cuando ves algo físico tomar forma gracias a ti.'],
+I:['El Analista','Analista','Ves lo que otros no ven. Los números y los detalles te hablan, y encuentras la causa de los problemas.'],
+A:['El Creador','Creador','Tu fuerza es imaginar lo que todavía no existe y darle forma: ideas, diseños, propuestas.'],
+S:['El Mentor','Mentor','La gente crece cerca de ti. Explicar, orientar y acompañar te sale natural.'],
+E:['El Impulsor','Impulsor','Mueves a otros. Tienes visión y la capacidad de convencer para que las cosas pasen.'],
+C:['El Organizador','Organizador','Donde tú estás hay orden. Controlas, das seguimiento y nada se te escapa.']};
+const pos=v=>((v||3)-1)/4*100,neg=v=>(5-(v||3))/4*100;
+const ROUTES=[
+{t:'Análisis de costos y presupuestos por proyecto',sk:['Presupuestos y costos','Detectar errores que otros no ven'],ty:['I','C'],tl:['Excel','Software de presupuestos de obra'],mt:3,pc:1,d:'Revisar, armar o auditar presupuestos para contratistas, constructoras o pequeños negocios, por proyecto y a distancia.',s:'Pídele a una IA: “Actúa como reclutador y dime qué buscan las empresas en un analista de costos freelance”. Con eso, arma un resumen de una página de tu experiencia.'},
+{t:'Gestión de compras y proveedores (remoto)',sk:['Negociar con proveedores','Organizar logística'],ty:['E','C'],tl:['Excel'],mt:2,pc:0,d:'Cotizar, comparar y negociar materiales o servicios para empresas que no tienen quién lo haga.',s:'Haz una lista de 10 negocios de tu zona que compran materiales a menudo y escribe qué podrías ahorrarles.'},
+{t:'Planificación y control de cronogramas',sk:['Planificar cronogramas','Organizar logística'],ty:['C','I'],tl:['MS Project o similar','Excel'],mt:3,pc:1,d:'Armar y actualizar cronogramas de proyectos para otros, en tus horas disponibles.',s:'Mira un tutorial corto de MS Project o de un planificador gratuito y arma el cronograma de un proyecto que ya conoces.'},
+{t:'Asistente administrativo virtual',sk:['Llevar orden y control administrativo','Atender clientes'],ty:['C','S'],tl:['Excel','Word'],mt:2,pc:1,d:'Llevar agendas, facturas, archivos y seguimiento para profesionales o negocios pequeños.',s:'Escribe una lista de 5 tareas administrativas que sabes hacer bien y ponle precio por hora a cada una.'},
+{t:'Capacitación y tutorías en tu área',sk:['Enseñar y explicar'],ty:['S'],tl:[],mt:1,pc:0,d:'Enseñar lo que sabes a grupos pequeños o en clases uno a uno, en persona o por videollamada.',s:'Escribe el temario de una clase de una hora sobre lo que mejor dominas.'},
+{t:'Venta consultiva por WhatsApp y redes',sk:['Vender o convencer','Atender clientes'],ty:['E','S'],tl:['Redes sociales para vender'],mt:1,pc:0,d:'Vender productos o servicios de otros a comisión, usando tu red de contactos y tu forma de convencer.',s:'Identifica 3 productos o servicios que ya usas y en los que crees, y pregunta si pagan comisión por referir clientes.'},
+{t:'Diseño de propuestas y presentaciones',sk:['Diseñar soluciones'],ty:['A','E'],tl:['Canva','AutoCAD u otro programa de diseño'],mt:2,pc:1,d:'Convertir ideas de otros en propuestas, planos o presentaciones claras y atractivas.',s:'Rediseña en Canva una propuesta o un presupuesto viejo tuyo para que se vea profesional.'},
+{t:'Supervisión e inspección por proyecto',sk:['Organizar logística','Detectar errores que otros no ven'],ty:['R','C'],tl:[],mt:1,pc:0,d:'Visitas puntuales para verificar avances, materiales o calidad, pagadas por visita o por informe.',s:'Arma una plantilla de “informe de inspección” de una página; una IA te puede dar el borrador.'},
+{t:'Consultoría independiente en tu especialidad',sk:['Diseñar soluciones','Presupuestos y costos','Vender o convencer'],ty:['E','I'],tl:[],mt:2,pc:0,d:'Ofrecer tu experiencia como servicio cerrado: diagnóstico, recomendación y seguimiento.',s:'Escribe en 3 líneas: qué problema resuelves, para quién y cuánto les ahorras o les haces ganar.'}];
+const BOOKS={'Disciplina y hábitos':['Hábitos atómicos','James Clear'],'Finanzas personales':['El hombre más rico de Babilonia','George S. Clason'],'Liderazgo':['Las 21 leyes irrefutables del liderazgo','John C. Maxwell'],'Emprendimiento':['Empieza con el porqué','Simon Sinek'],'Fe y propósito':['El hombre en busca de sentido','Viktor Frankl'],'Calma y manejo del estrés':['Meditaciones','Marco Aurelio']};
+const ANCH={'No tengo tiempo':'No es falta de tiempo; es falta de prioridad. Hoy elijo la mía.','No tengo dinero para empezar':'Lo que no tengo en dinero lo compenso con conocimiento y acción.','Ya estoy grande para eso':'Mi edad me dio experiencia, y la experiencia es mi ventaja.','El país no ayuda':'No controlo el país. Controlo mi siguiente paso.','No sé por dónde empezar':'No necesito ver toda la escalera, solo el primer escalón.','Nadie me da una oportunidad':'Si nadie me abre la puerta, construyo la mía.','Ninguna de estas':'Mi potencial no se discute: se demuestra.'};
+
+function compute(){
+  const A=S.A,ty=['R','I','A','S','E','C'].map(k=>[k,A['r_'+k]||0]).sort((x,y)=>y[1]-x[1]);
+  const t1=ty[0][0],t2=ty[1][0],tecN=+(String(A.tec||'Nivel 1').match(/\d/)||[1])[0];
+  const rh=[0.5,1.5,3,5][['Menos de 1 hora','Entre 1 y 2 horas','Entre 2 y 4 horas','Más de 4 horas'].indexOf(A.redes)]||1.5;
+  const ind=[['Sentido de control',(pos(A.m1)+neg(A.m2))/2,'¿Sientes que tu vida depende de ti?'],
+   ['Mentalidad de crecimiento',(neg(A.m3)+pos(A.m5))/2,'¿Te ves capaz de aprender?'],
+   ['Apertura a la tecnología',(neg(A.m4)+(tecN-1)/4*100)/2,'¿La ves como aliada?'],
+   ['Enfoque',(neg(A.m6)+Math.max(0,100-rh*20))/2,'¿Tu atención trabaja para ti?']].map(x=>[x[0],Math.round(x[1]),x[2]]);
+  const fu=A.fuerte||[],tl=A.herr||[],eq=A.equipo||[],pc=eq.includes('Laptop o PC propia');
+  const routes=ROUTES.map(r=>{let sc=0;r.sk.forEach(k=>{if(fu.includes(k))sc+=3});r.ty.forEach(k=>{if(k===t1)sc+=2;if(k===t2)sc+=1});r.tl.forEach(k=>{if(tl.includes(k))sc+=1});if(tecN<r.mt)sc-=2;if(r.pc&&!pc)sc-=2;return [sc,r]}).sort((x,y)=>y[0]-x[0]).slice(0,3).map(x=>x[1]);
+  const low=ind.slice().sort((x,y)=>x[1]-y[1])[0][0];
+  return {t1,t2,ind,rh,days:Math.round(rh*365/24),jorn:Math.round(rh*365/8),routes,low,tecN};
+}
+
+function msg(R){
+  const A=S.A,lines=['*DESBLOQUEA TU POTENCIAL*','Resultados de: '+S.name,'','*Perfil:* '+TYPES[R.t1][0]+' (rasgos de '+TYPES[R.t2][1]+')'];
+  R.ind.forEach(x=>lines.push('• '+x[0]+': '+x[1]+'/100'));
+  lines.push('• Redes: ~'+R.rh+' h/día ≈ '+R.days+' días al año','','*Respuestas*');
+  vis().forEach(q=>{let v=A[q.id];if(v==null||v==='')v='—';if(Array.isArray(v))v=v.join(', ');if(q.t==='likert')v=v+'/5';if(q.t==='scale4')v=['','Nada','Poco','Bastante','Mucho'][v]||v;if(q.t==='range')v=v+'%';
+    lines.push(q.id+') '+q.q.replace(/[“”]/g,'"')+'\n→ '+v)});
+  return 'https://wa.me/'+WA+'?text='+encodeURIComponent(lines.join('\n'));
+}
+
+function results(){
+  hero(true);setRing(1);document.getElementById('lock').classList.add('open');
+  document.getElementById('heroSub').textContent=S.name+', este es tu punto de partida.';
+  const R=compute(),A=S.A,col=v=>v>=70?'#2fbf71':v>=45?'#f2b632':'#ff6a3d',tag=v=>v>=70?'Fortaleza':v>=45?'En construcción':'Tu palanca de cambio';
+  const book=BOOKS[A.tema]||BOOKS['Disciplina y hábitos'],fmt=A.formato||'';
+  const how=fmt.startsWith('Escuchando')?'en audiolibro (o su resumen en podcast)':fmt.startsWith('Viendo')?'empieza por un resumen en video en YouTube y luego el libro':'el libro en físico o digital';
+  const mins=(A.min||'10').match(/\d+/)[0],hora=(A.hora||'Temprano en la mañana').toLowerCase();
+  const extra=R.low==='Sentido de control'?['Responsabilidad extrema','Jocko Willink y Leif Babin']:R.low==='Mentalidad de crecimiento'?['Mindset: la actitud del éxito','Carol Dweck']:R.low==='Enfoque'?['Enfócate (Deep Work)','Cal Newport']:null;
+  const r0=R.routes[0];
+  const reto=[`Día 1: activa el “tiempo de pantalla” de tu teléfono y anota cuánto usas ${esc(A.app||'tu app principal')}.`,
+   `Día 2: ${esc(r0.s)}`,
+   `Día 3: haz un bloque de 60 minutos sin teléfono (${esc(hora)}, tu mejor hora) solo para tu meta.`,
+   `Día 4: ${mins} minutos de “${esc(book[0])}”. Escribe una idea que te sirva.`,
+   R.tecN<4?'Día 5: usa una IA para una tarea real: pídele que te explique algo de tu trabajo “como a un experto”, y evalúa si acertó.':'Día 5: usa una IA para revisar un documento tuyo y dile qué le corregirías tú.',
+   'Día 6: deja de seguir 10 cuentas que no te suman y sigue 3 que te enseñen algo.',
+   'Día 7: escribe qué cambió esta semana y envíaselo a Ricardo.'];
+  const sinP=sinT(A);
+  app.innerHTML=`<section class="res">
+  <div class="card prof"><span class="tag">Tu perfil</span><h2>${TYPES[R.t1][0]}</h2><p>${TYPES[R.t1][2]}</p><p>Con rasgos de <b>${TYPES[R.t2][1]}</b>: ${TYPES[R.t2][2].charAt(0).toLowerCase()+TYPES[R.t2][2].slice(1)}</p>
+   ${(A.fuerte||[]).length?`<p><b>Tu superpoder:</b> ${esc(A.fuerte.join(', ').toLowerCase())}.</p>`:''}</div>
+  <div class="card"><h2>Tu mentalidad hoy</h2><p class="note">No es una nota: es un mapa. Lo que sale bajo es justo donde más puedes crecer.</p>
+   <div class="ind">${R.ind.map(x=>`<div><div class="l">${x[0]} <span>${tag(x[1])} · ${x[1]}/100</span></div><div class="b"><i style="width:${x[1]}%;background:${col(x[1])}"></i></div></div>`).join('')}</div></div>
+  <div class="card"><h2>El espejo de tu tiempo</h2><div class="mirror">${R.days} días</div>
+   <p>Es lo que suman al año ~${R.rh} horas diarias en redes: unas <b>${R.jorn} jornadas de trabajo de 8 horas</b>. Dijiste que hoy usas el <b>${A.pot==null?50:A.pot}%</b> de tu potencial${A.despues==='Peor'?', y que después de las redes te sientes peor':''}. Recuperar la mitad de ese tiempo cambia el juego.</p></div>
+  <div id="lk" class="${S.unlocked?'':'locked'}">
+   <div class="${S.unlocked?'':'blur'}">
+    <div class="card"><h2>${sinP?'3 rutas para empezar a generar ingresos':'3 rutas para crecer y generar ingresos aparte'}</h2>
+     ${R.routes.map((r,k)=>`<div class="route"><h3>${k+1}. ${esc(r.t)}</h3><p>${esc(r.d)}</p><p><b>Primer paso:</b> ${esc(r.s)}</p></div>`).join('')}</div>
+    <div class="card"><h2>Tu ruta de crecimiento</h2>
+     <p><b>Libro:</b> “${esc(book[0])}”, de ${esc(book[1])}: ${how}.</p>
+     ${extra?`<p><b>Para tu palanca de cambio (${esc(R.low.toLowerCase())}):</b> “${extra[0]}”, de ${extra[1]}.</p>`:''}
+     <p><b>Podcast:</b> “Libros para Emprendedores”, resúmenes de libros de negocio y mentalidad en español.</p>
+     <p><b>Hábito:</b> ${mins} minutos diarios, ${esc(hora)}, antes de abrir cualquier red social.</p></div>
+    <div class="card"><h2>Tu reto de 7 días</h2><ol class="d">${reto.map(x=>`<li>${x}</li>`).join('')}</ol></div>
+    <div class="card"><p class="note" style="text-align:center">Tu frase ancla</p><p class="anchor">“${esc(ANCH[A.excusa]||ANCH['Ninguna de estas'])}”</p></div>
+   </div>
+  </div>
+  <div class="card" id="cta">${S.unlocked?`<h2 style="font-size:22px">¡Listo, ${esc(S.name)}!</h2><p>Si no llegaste a darle “Enviar” en WhatsApp, puedes hacerlo de nuevo aquí. Ricardo preparará tu informe completo con IA.</p>`:`<h2 style="font-size:22px">Desbloquea tu resultado completo</h2><p>Envíale tus respuestas a Ricardo para ver tus rutas, tu ruta de crecimiento y tu reto de 7 días. Con ellas prepara tu informe personalizado con IA.</p>`}
+   <div class="row"><a class="btn" id="wa" href="${msg(R)}" target="_blank" rel="noopener">${S.unlocked?'Enviar de nuevo a Ricardo':'Enviar a Ricardo y desbloquear'}</a></div>
+   <p class="note">Se abre WhatsApp con tu mensaje listo: solo toca “Enviar”.</p>
+   <div class="row"><button class="btn ghost" id="ed">Revisar mis respuestas</button></div></div>
+  <p class="note" style="text-align:center;margin-top:18px">Herramienta de orientación y crecimiento personal. No sustituye una evaluación psicológica profesional.</p>
+  </section>`;
+  document.getElementById('wa').addEventListener('click',()=>{if(!S.unlocked){S.unlocked=true;save();setTimeout(()=>{results();window.scrollTo(0,document.getElementById('lk').offsetTop-20)},400)}});
+  document.getElementById('ed').onclick=()=>{S.i=0;S.done=false;save();document.getElementById('lock').classList.remove('open');ask()};
+}
+S.done?intro():intro();
+}
+</script>
+</body>
+</html>
