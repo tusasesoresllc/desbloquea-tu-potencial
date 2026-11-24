@@ -114,7 +114,7 @@ const Q=[
 {id:'estudio',b:'Tu talento',t:'text',q:'¿Qué estudiaste o en qué te formaste?',req:1},
 {id:'herr',b:'Tu talento',t:'multi',q:'¿Qué herramientas dominas?',o:['Excel','Word','Google Drive, Docs o Sheets','ChatGPT, Gemini, Claude u otra IA','Zoom o Google Meet','Gestor de proyectos o CRM','AutoCAD u otro programa de diseño','Software de presupuestos de obra','Canva','Redes sociales para vender','Ninguna de estas']},
 {id:'fuerte',b:'Tu talento',t:'pick3',q:'Elige las 3 cosas en las que eres realmente bueno',o:['Presupuestos y costos','Negociar con proveedores','Detectar errores que otros no ven','Organizar logística','Planificar cronogramas','Enseñar y explicar','Vender o convencer','Diseñar soluciones','Atender clientes','Llevar orden y control administrativo']},
-{id:'logro',b:'Tu talento',t:'text',q:'Cuéntame un logro del que te sientas orgulloso',h:'En tu trabajo o en tu vida. Unas líneas bastan.',req:1},
+{id:'logro',b:'Tu talento',t:'text',q:'Cuéntame un logro del que te sientas orgulloso',h:'En tu trabajo o en tu vida. Escribe al menos una frase.',req:1,mw:3},
 {id:'r_R',b:'Cómo funcionas',t:'scale4',q:'¿Cuánto disfrutarías trabajar en algo práctico, con tus manos o en sitio?',h:'Una obra, un taller, una instalación.'},
 {id:'r_I',b:'Cómo funcionas',t:'scale4',q:'¿Cuánto disfrutarías analizar números o datos para entender por qué algo no funciona?'},
 {id:'r_A',b:'Cómo funcionas',t:'scale4',q:'¿Cuánto disfrutarías diseñar o crear algo nuevo?',h:'Una propuesta, un espacio, un contenido.'},
@@ -134,7 +134,7 @@ const Q=[
 {id:'despues',b:'Tu tiempo',t:'one',q:'Después de un rato en redes, ¿cómo te sientes?',o:['Mejor','Igual','Peor']},
 {id:'hora',b:'Tu tiempo',t:'one',q:'¿A qué hora del día rindes más?',o:['Temprano en la mañana','Media mañana','En la tarde','En la noche']},
 {id:'pot',b:'Tu tiempo',t:'range',q:'Siendo honesto contigo: ¿qué porcentaje de tu potencial estás usando hoy en tu vida?'},
-{id:'cien',b:'Tu tiempo',t:'text',q:'Si dieras el 100%, ¿qué sería diferente en tu vida dentro de un año?',req:1},
+{id:'cien',b:'Tu tiempo',t:'text',q:'Si dieras el 100%, ¿qué sería diferente en tu vida dentro de un año?',h:'Escribe al menos una frase.',req:1,mw:3},
 {id:'leer',b:'Tu crecimiento',t:'one',q:'¿Cuándo fue la última vez que leíste o escuchaste un libro completo?',o:['Este último mes','Este año','Hace varios años','No lo recuerdo']},
 {id:'formato',b:'Tu crecimiento',t:'one',q:'¿Cómo aprendes mejor?',o:['Leyendo','Escuchando (audio, podcast)','Viendo videos']},
 {id:'tema',b:'Tu crecimiento',t:'one',q:'¿Qué tema te llama más ahora mismo?',o:['Disciplina y hábitos','Finanzas personales','Liderazgo','Emprendimiento','Fe y propósito','Calma y manejo del estrés']},
@@ -159,6 +159,9 @@ const lbl=o=>Array.isArray(o)?o[0]+' — '+o[1]:o;
 const setRing=p=>{document.getElementById('ring').style.strokeDashoffset=String(540*(1-p))};
 const hero=on=>document.getElementById('hero').classList.toggle('hide',!on);
 
+const junk=t=>{const w=(t||'').toLowerCase().match(/[a-záéíóúüñ]+/g)||[];if(!w.length)return true;if(/(.)\1{3,}/i.test(t))return true;
+  return w.some(x=>(x.length>=3&&!/[aeiouáéíóúüy]/.test(x))||x.length>=4&&((x.match(/[aeiouáéíóúü]/g)||[]).length/x.length<0.25||/[bcdfghjklmnñpqrstvwxyz]{5,}/.test(x)))};
+const wc=t=>((t||'').trim().match(/\S+/g)||[]).length;
 function intro(){
   hero(true);setRing(S.i?S.i/vis().length:0);
   const resume=S.i>0&&!S.done;
@@ -191,7 +194,7 @@ function ask(){
   if(q.t==='likert')body=`<div class="opts">${L5.map((o,k)=>`<button class="o${a===k+1?' on':''}" data-n="${k+1}">${o}</button>`).join('')}</div>`;
   if(q.t==='ten')body=`<div class="opts g5">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="o${a===n?' on':''}" data-n="${n}">${n}</button>`).join('')}</div>`;
   if(q.t==='range')body=`<div class="big" id="rv">${a==null?50:a}%</div><input type="range" id="rg" min="0" max="100" step="5" value="${a==null?50:a}" aria-label="Porcentaje">`;
-  if(q.t==='text')body=`<textarea id="tx" placeholder="Escribe aquí…">${esc(a||'')}</textarea>`;
+  if(q.t==='text')body=`<textarea id="tx" placeholder="Escribe aquí…">${esc(a||'')}</textarea><p id="warn" class="h" style="color:var(--coral);min-height:1.5em;margin-top:6px"></p>`;
   const needNext=['multi','pick3','range','text'].includes(q.t);
   app.innerHTML=`<div class="top"><div class="bar"><i style="width:${S.i/V.length*100}%"></i></div>
    <div class="meta"><span>${esc(q.b)}</span><span>${S.i+1} de ${V.length}</span></div></div>
@@ -200,7 +203,9 @@ function ask(){
   const next=()=>{S.i++;save();ask();window.scrollTo(0,0)};
   const nx=document.getElementById('nx');
   const check=()=>{if(!nx)return;const v=S.A[q.id];let ok=true;
-    if(q.t==='multi')ok=v&&v.length>0;if(q.t==='pick3')ok=v&&v.length===3;if(q.t==='text'&&q.req)ok=v&&v.trim().length>1;nx.disabled=!ok};
+    if(q.t==='multi')ok=v&&v.length>0;if(q.t==='pick3')ok=v&&v.length===3;if(q.t==='text'){const t=(v||'').trim();const bad=t&&junk(t);const few=q.mw&&t&&wc(t)<q.mw;ok=(!q.req||t.length>1)&&!bad&&!few;
+      const w=document.getElementById('warn');if(w)w.textContent=bad?'Parece que se escaparon letras sin sentido. Escríbelo con tus palabras: así tu informe será de verdad tuyo.':few?'Escribe al menos una frase corta ('+q.mw+' palabras o más).':''}
+    nx.disabled=!ok};
   app.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{S.A[q.id]=b.dataset.v;save();b.classList.add('on');setTimeout(next,170)});
   app.querySelectorAll('[data-n]').forEach(b=>b.onclick=()=>{S.A[q.id]=+b.dataset.n;save();b.classList.add('on');setTimeout(next,170)});
   app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{let arr=(S.A[q.id]||[]).slice();const m=b.dataset.m;
@@ -237,14 +242,14 @@ const SITL={sin:'Sin trabajo fijo',emp:'Empleado',ind:'Independiente'};
 const okMail=e=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e||'');
 function msg(R,self){
   const A=S.A,L=[],fmt=q=>{let v=A[q.id];if(q.id==='sit')v=SITL[v]||v;if(v==null||v==='')return '—';if(Array.isArray(v))return v.join(', ');if(q.t==='range')return v+'%';if(q.t==='ten')return v+'/10';if(q.id==='tec')return String(v).split(' — ')[0];return String(v)};
-  L.push('🔓 *DESBLOQUEA TU POTENCIAL*',self?'_Copia de mis respuestas_':'_Solicitud de informe_','','👤 *'+S.name+'*','✉️ '+(S.email||'—'),'','━━━━━━━━━━','*PERFIL:* '+TYPES[R.t1][0]+' · rasgos de '+TYPES[R.t2][1]);
-  R.ind.forEach(x=>L.push((x[1]>=70?'🟢':x[1]>=45?'🟡':'🔴')+' '+x[0]+': *'+x[1]+'*'));
-  L.push('📱 Redes: ~'+R.rh+' h/día ≈ '+R.days+' días/año');
+  L.push('*DESBLOQUEA TU POTENCIAL*',self?'_Copia de mis respuestas_':'_Solicitud de informe_','','*Nombre:* '+S.name,'*Email:* '+(S.email||'—'),'','----------','*PERFIL:* '+TYPES[R.t1][0]+' · rasgos de '+TYPES[R.t2][1]);
+  R.ind.forEach(x=>L.push('- '+x[0]+': *'+x[1]+'/100* ('+(x[1]>=70?'fortaleza':x[1]>=45?'en construcción':'palanca de cambio')+')'));
+  L.push('- Redes: ~'+R.rh+' h/día = '+R.days+' días al año');
   const V=vis();let blk='';
-  V.forEach(q=>{if(q.b!==blk){blk=q.b;L.push('','━━━━━━━━━━','*'+blk.toUpperCase()+'*')}
+  V.forEach(q=>{if(q.b!==blk){blk=q.b;L.push('','----------','*'+blk.toUpperCase()+'*')}
     if(q.t==='scale4'){if(q.id==='r_R')L.push('Intereses (1-4): Práctico '+(A.r_R||'-')+' · Analítico '+(A.r_I||'-')+' · Creativo '+(A.r_A||'-')+' · Social '+(A.r_S||'-')+' · Líder '+(A.r_E||'-')+' · Orden '+(A.r_C||'-'));return}
     if(q.t==='likert'){if(q.id==='m1')L.push('Escala 1-5: Control '+(A.m1||'-')+' · Culpa externa '+(A.m2||'-')+' · Mentalidad fija '+(A.m3||'-')+' · Escepticismo tecnológico '+(A.m4||'-')+' · Resiliencia '+(A.m5||'-')+' · Procrastinación '+(A.m6||'-'));return}
-    L.push('• '+(SH[q.id]||q.id)+': '+fmt(q))});
+    L.push('- '+(SH[q.id]||q.id)+': '+fmt(q))});
   return 'https://wa.me/'+(self?'':WA)+'?text='+encodeURIComponent(L.join('\n'));
 }
 const lockSvg=o=>`<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="${o?'M8 11V7a4 4 0 0 1 7.6-1.7':'M8 11V7a4 4 0 0 1 8 0v4'}" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><rect x="5" y="11" width="14" height="10" rx="2.5" fill="#fff"/></svg>`;
@@ -262,7 +267,9 @@ function results(){
    <div class="path">${R.ind.slice().sort((x,y)=>y[1]-x[1]).map(x=>`<div class="st"><span class="dot" style="background:${col(x[1])}">${lockSvg(x[1]>=70)}</span><div><div class="l">${x[0]} <span>${tag(x[1])} · ${x[1]}/100</span></div><div class="b"><i style="--w:${x[1]}%;background:${col(x[1])}"></i></div></div></div>`).join('')}
     <div class="st"><span class="dot goal">${flagSvg}</span><div><div class="l">Tu meta</div><div class="note" style="margin:0">${esc(A.meta||'')}${A.monto?' · '+esc(A.monto)+' USD':''}</div></div></div></div></div></div>
   <div class="card"><h2>El espejo de tu tiempo</h2><div class="mirror">${R.days} días</div>
-   <p>Es lo que suman al año ~${R.rh} horas diarias en redes: unas <b>${R.jorn} jornadas de trabajo de 8 horas</b>. Dijiste que hoy usas el <b>${A.pot==null?50:A.pot}%</b> de tu potencial${A.despues==='Peor'?', y que después de las redes te sientes peor':''}.</p></div>
+   <p>Es lo que suman al año ~${R.rh} horas diarias en redes: unas <b>${R.jorn} jornadas de trabajo de 8 horas</b>. Dijiste que hoy usas el <b>${A.pot==null?50:A.pot}%</b> de tu potencial${A.despues==='Peor'?', y que después de las redes te sientes peor':''}.</p>
+   ${A.cien?`<p>Y si dieras el 100%: <i>“${esc(A.cien)}”</i>. Ese es tu porqué. Tu informe te dirá cómo llegar.</p>`:''}</div>
+  ${A.excusa&&A.excusa!=='Ninguna de estas'?`<div class="card"><h2>La frase que te frena</h2><p>Te repites: <b>“${esc(A.excusa)}”</b>.</p><p>Cámbiala desde hoy por esta:</p><p class="anchor">“${esc(ANCH[A.excusa])}”</p></div>`:''}
   <div class="card" id="cta"><h2 style="font-size:24px">Pide tu informe completo</h2>
    <p>Esto es solo el comienzo. Tu informe personalizado, preparado con IA, incluye:</p>
    <ul><li>3 rutas concretas para crecer y generar ingresos</li><li>Tu ruta de lectura y aprendizaje</li><li>Tus próximos pasos para los próximos 30 días</li><li>Tu reto de arranque</li></ul>
